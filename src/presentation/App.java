@@ -4,15 +4,15 @@ import java.util.Scanner;
 
 import database.Task;
 import database.ToDoList;
-import operations.AddTask;
-import operations.CompleteTask;
-import operations.RemoveTask;
+import operations.ListController;
+
 
 public class App {
     public static void main(String[] args) {
     	
         Scanner sc = new Scanner(System.in);
         ToDoList todo = new ToDoList();
+        ListController controller = new ListController();
         int choice;
 
         do {
@@ -31,24 +31,20 @@ public class App {
                     System.out.print("Unesite opis zadatka: ");
                     String desc = sc.nextLine();
                     Task newTask = new Task(desc);
-                    AddTask addTask = new AddTask();
-                    addTask.addTaskToList(newTask, todo);
+                    controller.addTaskToList(newTask, todo);
                     break;
                 case 2:
-                	PrintTasks print = new PrintTasks();
-                	print.printTasks(todo);
+                	controller.printTasks(todo);
                     break;
                 case 3:
-                    System.out.print("Unesite id zadatka za označavanje: ");
+                    System.out.print("Unesite id zadatka koji je uspjesno zavrsen: ");
                     int doneIndex = sc.nextInt();
-                    CompleteTask completeTask = new CompleteTask();
-                    completeTask.completeTaskInListOfTasks(doneIndex, todo);
+                    controller.completeTaskInListOfTasks(doneIndex, todo);
                     break;
                 case 4:
                     System.out.print("Unesite id zadatka za brisanje: ");
-                    RemoveTask remove = new RemoveTask();
                     int id = sc.nextInt();
-                    remove.removeTaskFromTheList(id, todo);
+                    controller.removeTaskFromTheList(id, todo);
                     break;
                 case 0:
                     System.out.println("Izlaz iz programa...");
