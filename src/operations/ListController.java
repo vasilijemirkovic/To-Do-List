@@ -1,0 +1,60 @@
+package operations;
+
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import database.Task;
+import database.ToDoList;
+
+public class ListController {
+
+	private static final Logger CONTROLLER_LOGGER = Logger.getLogger(ListController.class.getName());
+
+	// private static final Logger LOGGER =
+	// LoggerFactory.getLogger(ListController.class);
+
+	public void addTaskToList(Task taskToBeAdded, ToDoList toDoList) {
+		// INFO - Demeter´s Law -> verstoßen!
+		toDoList.getList().add(taskToBeAdded);
+	}
+
+	public void completeTaskInListOfTasks(int id, ToDoList listOfTasks) {
+
+		Optional<Task> task = listOfTasks.getList().stream().filter(eachTask -> eachTask.getId() == id).findFirst();
+
+		if (task.isPresent() && task.get().isTaskCompleted()) {
+			CONTROLLER_LOGGER.warning("TASK IS ALREADY COMPLETED!");
+		} else {
+			listOfTasks.getList().stream().filter(eachTask -> eachTask.getId() == id).findAny()
+					.orElseThrow(() -> new IllegalArgumentException("Task with id: " + id + " does not exist."))
+					.setTaskAsCompleted();
+
+			CONTROLLER_LOGGER.info("TASK WITH ID " + id + " IS SET AS THE COMPLETED!");
+		}
+	}
+
+	public void showTaskToTheScreen(Task taskToBeShown) {
+		CONTROLLER_LOGGER.info(taskToBeShown.toString());
+	}
+
+	public void removeTaskFromTheList(int id, ToDoList toDoList) {
+
+		boolean removed = toDoList.getList().removeIf(task -> task.getId() == id);
+
+		if (!removed) {
+			CONTROLLER_LOGGER.severe("THERE IS NO TASK WITH ID: " + id + " IN THIS LIST!");
+			throw new IllegalArgumentException("THERE IS NO TASK WITH ID: " + id + " IN THIS LIST!");
+
+		}
+
+	}
+
+	public void printTasks(ToDoList listToBePrinted) {
+
+		CONTROLLER_LOGGER.info("LIST OF TASKS NAMED: " + listToBePrinted.getListName() + " PRINTS:");
+
+		for (Task eachTask : listToBePrinted.getList()) {
+			System.out.println(eachTask.toString());
+		}
+	}
+}
