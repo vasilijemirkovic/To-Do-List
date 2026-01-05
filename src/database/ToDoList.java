@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class ToDoList {
 	
 	private String listName;
-	private List<Task> list;
+	private final List<Task> list;
 	
 	public ToDoList() {
 		this.listName = "Default";
@@ -30,9 +30,4 @@ public class ToDoList {
 	public List<Task> getList() {
 		return list;
 	}
-
-	public void setList(List<Task> list) {
-		this.list = list;
-	}
-
 }

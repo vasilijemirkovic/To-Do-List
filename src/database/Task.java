@@ -4,9 +4,12 @@ import idGenerator.IdGenerator;
 
 public class Task {
 	
-	private int id;
+	//TODO: NotNull & Unique
+	private final int id;
 	private String description;
 	private boolean taskCompleted;
+	private IdGenerator generator = new IdGenerator();
+
 	
 	public Task() {
 		this.id = 1000;
@@ -15,7 +18,6 @@ public class Task {
 	}
 	
 	public Task(String description){
-		IdGenerator generator = new IdGenerator();
 		this.id = generator.generateIdForTask();
 		this.description = description;
 	}
@@ -24,11 +26,7 @@ public class Task {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getdescription() {
+	public String getDescription() {
 		return description;
 	}
 
@@ -44,9 +42,18 @@ public class Task {
 		this.taskCompleted = true;
 	}
 	
-	//NOTE - pogledati kako ide equals
-	public boolean equals(Task obj) {
-		return super.equals(obj);
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (!(o instanceof Task)) return false;
+	    Task other = (Task) o;
+	    return this.id == other.id;
+	}
+	
+	//TODO: provjeriti valja li hashCode metoda
+	@Override
+	public int hashCode() {
+		return super.hashCode();
 	}
 	
 	@Override
