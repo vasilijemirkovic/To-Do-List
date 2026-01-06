@@ -18,14 +18,19 @@ public class ListController {
 		listOfTasks.add(taskToBeAdded);
 	}
 
+	public List<Task> getTasks(ToDoList todo) {
+		return todo.getList();
+	}
+
 	public void completeTaskInListOfTasks(String id, ToDoList listOfTasks) {
 
-		Optional<Task> task = listOfTasks.getList().stream().filter(eachTask -> eachTask.getId() == id).findFirst();
+		Optional<Task> task = listOfTasks.getList().stream().filter(eachTask -> eachTask.getId().equals(id))
+				.findFirst();
 
 		if (task.isPresent() && task.get().isTaskCompleted()) {
 			CONTROLLER_LOGGER.warning("TASK IS ALREADY COMPLETED!");
 		} else {
-			listOfTasks.getList().stream().filter(eachTask -> eachTask.getId() == id).findAny()
+			listOfTasks.getList().stream().filter(eachTask -> eachTask.getId().equals(id)).findAny()
 					.orElseThrow(() -> new IllegalArgumentException("Task with id: " + id + " does not exist."))
 					.setTaskAsCompleted();
 
@@ -39,13 +44,14 @@ public class ListController {
 
 	public void removeTaskFromTheList(String id, ToDoList toDoList) {
 
-		boolean removed = toDoList.getList().removeIf(task -> task.getId() == id);
+		boolean removed = toDoList.getList().removeIf(task -> task.getId().equals(id));
 
 		if (!removed) {
 			CONTROLLER_LOGGER.severe("THERE IS NO TASK WITH ID: " + id + " IN THIS LIST!");
 			throw new IllegalArgumentException("THERE IS NO TASK WITH ID: " + id + " IN THIS LIST!");
-
 		}
+
+		CONTROLLER_LOGGER.info("TASK WITH ID: " + id + " WAS SUCCESSFULLY REMOVED FROM THE LIST!");
 
 	}
 
