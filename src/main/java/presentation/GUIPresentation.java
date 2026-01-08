@@ -24,8 +24,8 @@ public class GUIPresentation extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ToDoList todo;
-	private ListController controller;
+	private ToDoList todo = new ToDoList();
+	private ListController controller = new ListController();
 
 	private JTextField taskInput;
 	private JTextArea taskArea;
@@ -40,6 +40,12 @@ public class GUIPresentation extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 
+		initUI();
+	}
+
+	public GUIPresentation(ToDoList todo, ListController controller) {
+		this.todo = todo;
+		this.controller = controller;
 		initUI();
 	}
 
