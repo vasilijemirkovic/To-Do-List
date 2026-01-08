@@ -41,7 +41,7 @@ public class ConsoleApp {
 				controller.addTaskToList(newTask, todo);
 				break;
 			case 2:
-				controller.printTasks(todo);
+				controller.getTasks(todo).forEach(System.out::println);
 				break;
 			case 3:
 				System.out.print("Unesite id zadatka koji je uspjesno zavrsen: ");
