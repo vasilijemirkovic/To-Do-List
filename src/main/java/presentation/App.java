@@ -2,21 +2,17 @@ package presentation;
 
 import javax.swing.SwingUtilities;
 
+import presentation.presentationMode.EPresentationMode;
+
 public class App {
 
 	public static void main(String[] args) {
 
-		boolean consolePresentation = false;
+		EPresentationMode mode = EPresentationMode.GUI;
 
-		if (consolePresentation) {
-			ConsoleApp consoleApp = new ConsoleApp();
-			consoleApp.executeConsoleApp();
-		} else {
-			SwingUtilities.invokeLater(() -> {
-				GUIPresentation gui = new GUIPresentation();
-				gui.setVisible(true);
-
-			});
+		switch (mode) {
+		case CONSOLE -> new ConsoleApp().executeConsoleApp();
+		case GUI -> SwingUtilities.invokeLater(() -> new GUIPresentation().setVisible(true));
 		}
 
 	}
