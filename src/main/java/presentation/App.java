@@ -8,11 +8,19 @@ public class App {
 
 	public static void main(String[] args) {
 
-		EPresentationMode mode = EPresentationMode.GUI;
+		EPresentationMode mode = EPresentationMode.CONSOLE;
 
 		switch (mode) {
-		case CONSOLE -> new ConsoleApp().executeConsoleApp();
-		case GUI -> SwingUtilities.invokeLater(() -> new GUIPresentation().setVisible(true));
+		case CONSOLE -> {
+			ConsoleApp consoleApp = new ConsoleApp();
+			consoleApp.executeConsoleApp();
+		}
+		case GUI -> {
+			SwingUtilities.invokeLater(() -> {
+				GUIPresentation gui = new GUIPresentation();
+				gui.setVisible(true);
+			});
+		}
 		}
 
 	}
