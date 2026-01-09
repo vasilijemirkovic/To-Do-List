@@ -9,8 +9,8 @@ import repository.ToDoList;
 public class ConsoleApp {
 
 	private Scanner sc;
-	ToDoList todo;
-	ListController controller;
+	private ToDoList todo;
+	private ListController controller;
 
 	public ConsoleApp() {
 		this.sc = new Scanner(System.in);
@@ -41,6 +41,10 @@ public class ConsoleApp {
 				controller.addTaskToList(newTask, todo);
 				break;
 			case 2:
+				if (controller.getTasks(todo).isEmpty()) {
+					System.out.println("Nema zadataka u listi.");
+					break;
+				}
 				controller.getTasks(todo).forEach(System.out::println);
 				break;
 			case 3:
