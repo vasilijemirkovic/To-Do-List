@@ -13,38 +13,34 @@ public class ListController {
 
 	public void addTaskToList(Task taskToBeAdded, ToDoList toDoList) {
 
-		List<Task> listOfTasks = toDoList.getList();
+		List<Task> listOfTasks = toDoList.getTasks();
 
 		listOfTasks.add(taskToBeAdded);
 	}
 
 	public List<Task> getTasks(ToDoList todo) {
-		return todo.getList();
+		return todo.getTasks();
 	}
 
 	public void completeTaskInListOfTasks(String id, ToDoList listOfTasks) {
 
-		Optional<Task> task = listOfTasks.getList().stream().filter(eachTask -> eachTask.getId().equals(id))
+		Optional<Task> task = listOfTasks.getTasks().stream().filter(eachTask -> eachTask.getId().equals(id))
 				.findFirst();
 
-		if (task.isPresent() && task.get().isTaskCompleted()) {
+		if (task.isPresent() && task.get().isCompleted()) {
 			CONTROLLER_LOGGER.warning("TASK IS ALREADY COMPLETED!");
 		} else {
-			listOfTasks.getList().stream().filter(eachTask -> eachTask.getId().equals(id)).findAny()
+			listOfTasks.getTasks().stream().filter(eachTask -> eachTask.getId().equals(id)).findAny()
 					.orElseThrow(() -> new IllegalArgumentException("Task with id: " + id + " does not exist."))
-					.setTaskAsCompleted();
+					.markAsCompleted();
 
 			CONTROLLER_LOGGER.info("TASK WITH ID " + id + " IS SET AS THE COMPLETED!");
 		}
 	}
 
-	public void showTaskToTheScreen(Task taskToBeShown) {
-		CONTROLLER_LOGGER.info(taskToBeShown.toString());
-	}
-
 	public void removeTaskFromTheList(String id, ToDoList toDoList) {
 
-		boolean removed = toDoList.getList().removeIf(task -> task.getId().equals(id));
+		boolean removed = toDoList.getTasks().removeIf(task -> task.getId().equals(id));
 
 		if (!removed) {
 			CONTROLLER_LOGGER.severe("THERE IS NO TASK WITH ID: " + id + " IN THIS LIST!");
@@ -59,7 +55,7 @@ public class ListController {
 
 		CONTROLLER_LOGGER.info("LIST OF TASKS NAMED: " + listToBePrinted.getListName() + " PRINTS:");
 
-		for (Task eachTask : listToBePrinted.getList()) {
+		for (Task eachTask : listToBePrinted.getTasks()) {
 			System.out.println(eachTask.toString());
 		}
 	}
