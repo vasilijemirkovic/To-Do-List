@@ -7,12 +7,15 @@ public class IdRepository {
 
 	private final Set<String> ids = new HashSet<>();
 
-	public synchronized boolean exists(String id) {
+	public boolean exists(String id) {
 		return ids.contains(id);
 	}
 
-	public synchronized void save(String id) {
+	public void save(String id) {
 		ids.add(id);
 	}
 
+	public void remove(String id) {
+		ids.remove(id);
+	}
 }
