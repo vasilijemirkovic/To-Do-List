@@ -41,36 +41,36 @@ public class TestListController {
 
 		controller.addTaskToList(task, todo);
 
-		assertEquals(1, todo.getList().size());
-		assertTrue(todo.getList().contains(task));
+		assertEquals(1, todo.getTasks().size());
+		assertTrue(todo.getTasks().contains(task));
 	}
 
 	@Test
 	void taskIsCompletedNowPositiveTest() {
 		Task task = new Task("Completed task");
-		todo.getList().add(task);
+		todo.getTasks().add(task);
 		listController.completeTaskInListOfTasks(task.getId(), todo);
 
-		assertTrue(task.isTaskCompleted());
+		assertTrue(task.isCompleted());
 	}
 
 	@Test
 	void taskWasAlreadyCompletedPositiveTest() {
 		Task task = new Task("Completed task");
 
-		task.setTaskAsCompleted();
+		task.markAsCompleted();
 
-		todo.getList().add(task);
+		todo.getTasks().add(task);
 
 		listController.completeTaskInListOfTasks(task.getId(), todo);
 
-		assertTrue(task.isTaskCompleted());
+		assertTrue(task.isCompleted());
 	}
 
 	@Test
 	void completeTaskInListNegativeTest() {
 		Task task = new Task("Some task");
-		todo.getList().add(task);
+		todo.getTasks().add(task);
 
 		String nonExistingId = "99999";
 
@@ -83,16 +83,16 @@ public class TestListController {
 	@Test
 	void successfullyRemovedTaskPositiveTest() {
 		Task task = new Task("Completed task");
-		todo.getList().add(task);
+		todo.getTasks().add(task);
 		listController.removeTaskFromTheList(task.getId(), todo);
 
-		assertFalse(todo.getList().contains(task));
+		assertFalse(todo.getTasks().contains(task));
 	}
 
 	@Test
 	void removeTaskFromTheListNegativeTest() {
 		Task task = new Task("Some task");
-		todo.getList().add(task);
+		todo.getTasks().add(task);
 
 		String nonExistingId = "99999";
 
@@ -111,10 +111,9 @@ public class TestListController {
 		Mockito.when(mockLogger.isLoggable(Mockito.any())).thenReturn(true);
 		// controller.setLogger(mockLogger);
 
-		ToDoList list = new ToDoList();
-		list.setListName("My Tasks");
-		list.getList().add(new Task("Task 1"));
-		list.getList().add(new Task("Task 2"));
+		ToDoList list = new ToDoList("test1");
+		list.getTasks().add(new Task("Task 1"));
+		list.getTasks().add(new Task("Task 2"));
 
 		// act
 		controller.printTasks(list);
