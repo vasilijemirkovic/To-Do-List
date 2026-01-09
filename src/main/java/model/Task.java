@@ -1,23 +1,20 @@
 package model;
 
+import java.util.Objects;
+
 import generator.IdGenerator;
 
 public class Task {
 
 	private final String id;
 	private String description;
-	private boolean taskCompleted;
+	private boolean completed;
 	private IdGenerator generator = new IdGenerator();
-
-	public Task() {
-		this.id = generator.generateTaskId();
-		this.description = "Default";
-		this.taskCompleted = false;
-	}
 
 	public Task(String description) {
 		this.id = generator.generateTaskId();
-		this.description = description;
+		this.description = Objects.requireNonNull(description);
+		this.completed = false;
 	}
 
 	public String getId() {
@@ -28,16 +25,16 @@ public class Task {
 		return description;
 	}
 
-	public void setdescription(String description) {
-		this.description = description;
+	public void setDescription(String description) {
+		this.description = Objects.requireNonNull(description);
 	}
 
-	public boolean isTaskCompleted() {
-		return taskCompleted;
+	public boolean isCompleted() {
+		return completed;
 	}
 
-	public void setTaskAsCompleted() {
-		this.taskCompleted = true;
+	public void markAsCompleted() {
+		this.completed = true;
 	}
 
 	@Override
@@ -48,19 +45,18 @@ public class Task {
 		if (!(o instanceof Task)) {
 			return false;
 		}
-		Task other = (Task) o;
-		return this.id == other.id;
+		Task task = (Task) o;
+		return id.equals(task.id);
 	}
 
 	@Override
 	public int hashCode() {
-		return super.hashCode();
+		return id.hashCode();
 	}
 
 	@Override
 	public String toString() {
-		String isCompleted = this.taskCompleted ? "COMPLETED" : "NOT COMPLETED";
-		return "TASK WITH ID: " + this.id + ", AND description: " + this.description + " IS " + isCompleted + ".";
+		return String.format("Task[id=%s, description=%s, status=%s]", id, description,
+				completed ? "COMPLETED" : "OPEN");
 	}
-
 }
