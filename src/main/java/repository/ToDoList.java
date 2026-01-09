@@ -7,28 +7,30 @@ import model.Task;
 
 public class ToDoList {
 
-	private String listName;
-	private final List<Task> list;
+	private final String listName; // final
+	private List<Task> tasks = new ArrayList<>();
 
 	public ToDoList() {
-		this.listName = "Default";
-		this.list = new ArrayList<Task>();
+		this.listName = "Default List";
 	}
 
-	public ToDoList(String listName, List<Task> list) {
+	public ToDoList(String listName) {
 		this.listName = listName;
-		this.list = list;
 	}
 
 	public String getListName() {
 		return listName;
 	}
 
-	public void setListName(String listName) {
-		this.listName = listName;
+	public List<Task> getTasks() {
+		return this.tasks;
 	}
 
-	public List<Task> getList() {
-		return list;
+	public void add(Task task) {
+		tasks.add(task);
+	}
+
+	public void remove(Task task) {
+		tasks.remove(task);
 	}
 }
