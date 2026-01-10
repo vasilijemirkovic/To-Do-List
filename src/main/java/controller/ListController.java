@@ -2,14 +2,16 @@ package controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import model.Task;
 import repository.ToDoList;
 
 public class ListController {
 
-	private static final Logger CONTROLLER_LOGGER = Logger.getLogger(ListController.class.getName());
+	private static final Logger CONTROLLER_LOGGER = LogManager.getLogger(ListController.class);
 
 	public void addTaskToList(Task taskToBeAdded, ToDoList toDoList) {
 
@@ -28,11 +30,14 @@ public class ListController {
 				.findFirst();
 
 		if (task.isPresent() && task.get().isCompleted()) {
-			CONTROLLER_LOGGER.warning("TASK IS ALREADY COMPLETED!");
+			CONTROLLER_LOGGER.warn("TASK IS ALREADY COMPLETED!");
+			throw new IllegalStateException("TASK IS ALREADY COMPLETED!");
+		} else if (task.isEmpty()) {
+			CONTROLLER_LOGGER.warn("TASK WITH ID " + id + " DOES NOT EXIST!");
+			throw new IllegalArgumentException("TASK WITH ID " + id + " DOES NOT EXIST!");
 		} else {
-			listOfTasks.getTasks().stream().filter(eachTask -> eachTask.getId().equals(id)).findAny()
-					.orElseThrow(() -> new IllegalArgumentException("Task with id: " + id + " does not exist."))
-					.markAsCompleted();
+
+			task.get().markAsCompleted();
 
 			CONTROLLER_LOGGER.info("TASK WITH ID " + id + " IS SET AS THE COMPLETED!");
 		}
@@ -40,14 +45,19 @@ public class ListController {
 
 	public void removeTaskFromTheList(String id, ToDoList toDoList) {
 
-		boolean removed = toDoList.getTasks().removeIf(task -> task.getId().equals(id));
+		Optional<Task> task = toDoList.getTasks().stream().filter(eachTask -> eachTask.getId().equals(id)).findFirst();
 
-		if (!removed) {
-			CONTROLLER_LOGGER.severe("THERE IS NO TASK WITH ID: " + id + " IN THIS LIST!");
-			throw new IllegalArgumentException("THERE IS NO TASK WITH ID: " + id + " IN THIS LIST!");
+		if (task.isEmpty()) {
+
+			CONTROLLER_LOGGER.warn("TASK WITH ID: " + id + " DOES NOT EXIST!");
+			throw new IllegalStateException("TASK WITH ID: " + id + " DOES NOT EXIST!");
+
+		} else {
+
+			toDoList.getTasks().removeIf(eachTask -> eachTask.getId().equals(id));
+
+			CONTROLLER_LOGGER.info("TASK WITH ID: " + id + " WAS SUCCESSFULLY REMOVED FROM THE LIST!");
 		}
-
-		CONTROLLER_LOGGER.info("TASK WITH ID: " + id + " WAS SUCCESSFULLY REMOVED FROM THE LIST!");
 
 	}
 
