@@ -50,13 +50,25 @@ public class ConsoleApp {
 			case 3:
 				System.out.print("Unesite id zadatka koji je uspjesno zavrsen: ");
 				String doneIndex = sc.nextLine();
-				controller.completeTaskInListOfTasks(doneIndex, todo);
+
+				try {
+					controller.completeTaskInListOfTasks(doneIndex, todo);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
 				break;
+
 			case 4:
 				System.out.print("Unesite id zadatka za brisanje: ");
 				String id = sc.nextLine();
-				controller.removeTaskFromTheList(id, todo);
+
+				try {
+					controller.removeTaskFromTheList(id, todo);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
 				break;
+
 			case 0:
 				System.out.println("Izlaz iz programa...");
 				break;
