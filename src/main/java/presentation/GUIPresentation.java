@@ -35,7 +35,7 @@ public class GUIPresentation extends JFrame {
 		todo = new ToDoList();
 		controller = new ListController();
 
-		setTitle("To-Do Lista");
+		setTitle("To-Do List");
 		setSize(500, 450);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -53,40 +53,35 @@ public class GUIPresentation extends JFrame {
 		JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
 		add(mainPanel);
 
-		// ===== TOP PANEL (Unos zadatka) =====
 		JPanel topPanel = new JPanel(new BorderLayout(5, 5));
 		taskInput = new JTextField();
-		JButton addButton = new JButton("Dodaj zadatak");
+		JButton addButton = new JButton("Add task");
 
 		topPanel.add(taskInput, BorderLayout.CENTER);
 		topPanel.add(addButton, BorderLayout.EAST);
 
-		// ===== CENTER PANEL (Prikaz zadataka) =====
 		taskArea = new JTextArea();
 		taskArea.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(taskArea);
 
-		// ===== BOTTOM PANEL (Akcije) =====
 		JPanel bottomPanel = new JPanel(new GridLayout(2, 2, 5, 5));
 
 		taskIdInput = new JTextField();
 
-		JButton showButton = new JButton("Prikaži zadatke");
-		JButton completeButton = new JButton("Završi zadatak");
-		JButton deleteButton = new JButton("Obriši zadatak");
+		JButton showButton = new JButton("Show tasks");
+		JButton completeButton = new JButton("Complete task");
+		JButton deleteButton = new JButton("Remove task");
 
-		bottomPanel.add(new JLabel("ID zadatka:"));
+		bottomPanel.add(new JLabel("ID of the task:"));
 		bottomPanel.add(taskIdInput);
 		bottomPanel.add(completeButton);
 		bottomPanel.add(deleteButton);
 
-		// ===== ADD PANELS =====
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
 		mainPanel.add(showButton, BorderLayout.SOUTH);
 		mainPanel.add(bottomPanel, BorderLayout.EAST);
 
-		// ===== ACTIONS =====
 		addButton.addActionListener(e -> addTask());
 		showButton.addActionListener(e -> refreshTasks());
 		completeButton.addActionListener(e -> completeTask());
@@ -96,7 +91,7 @@ public class GUIPresentation extends JFrame {
 	private void addTask() {
 		String desc = taskInput.getText();
 		if (desc.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Unesite opis zadatka!");
+			JOptionPane.showMessageDialog(this, "Enter the id of the task");
 			return;
 		}
 		controller.addTaskToList(new Task(desc), todo);
