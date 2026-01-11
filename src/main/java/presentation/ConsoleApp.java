@@ -23,32 +23,36 @@ public class ConsoleApp {
 		int choice;
 
 		do {
-			System.out.println("\n--- To-Do Lista ---");
-			System.out.println("1. Dodaj zadatak");
-			System.out.println("2. Prikazi zadatke");
-			System.out.println("3. Označi zadatak kao završen");
-			System.out.println("4. Obriši zadatak");
-			System.out.println("0. Izlaz");
-			System.out.print("Izaberite opciju: ");
+			// TODO: TASK: Add input validation for menu choice
+			// TODO: TASK: Change loggers in other classes
+			System.out.println("\n--- To-Do List ---");
+			System.out.println("1. Add task");
+			System.out.println("2. Show tasks");
+			System.out.println("3. Mark task as completed");
+			System.out.println("4. Delete task");
+			System.out.println("0. Exit");
+			System.out.print("Choose an option: ");
 			choice = sc.nextInt();
 			sc.nextLine();
 
 			switch (choice) {
 			case 1:
-				System.out.print("Unesite opis zadatka: ");
+				System.out.print("Enter task description: ");
 				String desc = sc.nextLine();
 				Task newTask = new Task(desc);
 				controller.addTaskToList(newTask, todo);
 				break;
 			case 2:
+				// TODO: TASK: No logic in the presentation layer
 				if (controller.getTasks(todo).isEmpty()) {
-					System.out.println("Nema zadataka u listi.");
+					System.out.println("No tasks available.");
 					break;
 				}
 				controller.getTasks(todo).forEach(System.out::println);
 				break;
 			case 3:
-				System.out.print("Unesite id zadatka koji je uspjesno zavrsen: ");
+
+				System.out.print("Enter the ID of the completed task: ");
 				String doneIndex = sc.nextLine();
 
 				try {
@@ -59,7 +63,8 @@ public class ConsoleApp {
 				break;
 
 			case 4:
-				System.out.print("Unesite id zadatka za brisanje: ");
+
+				System.out.print("Enter the ID of the task for deleting: ");
 				String id = sc.nextLine();
 
 				try {
@@ -70,10 +75,10 @@ public class ConsoleApp {
 				break;
 
 			case 0:
-				System.out.println("Izlaz iz programa...");
+				System.out.println("Exiting...");
 				break;
 			default:
-				System.out.println("Nepoznata opcija!");
+				System.out.println("Unknown option. Please try again.");
 			}
 		} while (choice != 0);
 		sc.close();
