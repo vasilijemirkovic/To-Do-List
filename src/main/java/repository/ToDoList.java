@@ -7,7 +7,7 @@ import model.Task;
 
 public class ToDoList {
 
-	private final String listName; // final
+	private final String listName;
 	private List<Task> tasks = new ArrayList<>();
 
 	public ToDoList() {
